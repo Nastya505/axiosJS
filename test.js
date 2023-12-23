@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
   getData();
 });
 
-function getData() {
-axios.get(`${API}/posts`)
-  .then(response => {
+ async function getData() {
+    try{
+    const response = await  axios.get(`${API}/posts`);
     const resultElement = document.getElementById('result');
     const posts = response.data;
     const titles = posts.map(post => post.title);
@@ -15,8 +15,24 @@ axios.get(`${API}/posts`)
       titleElement.textContent = title;
       resultElement.appendChild(titleElement);
     });
-  })
-  .catch(error => {
+    }
+    catch(error ) {
     console.log(error);
-  });
+    };
+}
+
+
+const postData = {
+  title: 'Название поста',
+  body: 'Текст поста',
+  userId: 1
+};
+async function createPost(){
+    try{
+        const response = axios.post(`${API}/posts`, postData);
+        console.log(response.data);
+    }
+    catch(error){
+        console.log(error);
+    }
 }
